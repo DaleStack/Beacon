@@ -4,8 +4,13 @@ from django.contrib.auth.decorators import login_required
 import requests
 import os
 from dotenv import load_dotenv
-load_dotenv()
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
+
+load_dotenv()
+
 
 # Create your views here.
 def home(request):
@@ -23,7 +28,7 @@ def dashboard(request):
 
     label = request.GET.get("label", "good-first-issue")
     language = request.GET.get("language")
-    page = request.GET.get("page", 1)  # <-- 👈 new
+    page = request.GET.get("page", 1) 
 
     query = f"label:{label} state:open"
     if language:
