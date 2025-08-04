@@ -5,8 +5,19 @@
         Beacon
     </div>
     {% if user.is_authenticated %}
-        <div>
-            <img src="{{ user.userprofile.avatar_url }}" alt="Avatar" width="100" style="border-radius: 50%;">
+        <div class="flex items-center space-x-10">
+            <div class="flex items-center space-x-8">
+                <a href="">Discover</a>
+                <a href="">Favorites</a>
+            </div>
+            
+            <div class="dropdown dropdown-end">
+                <img class="cursor-pointer" tabindex="0" role="button" src="{{ user.userprofile.avatar_url }}" alt="Avatar" width="40" style="border-radius: 50%;">
+                <ul tabindex="0" class="dropdown-content menu bg-black outline outline-white/30 rounded-box z-1 w-52 p-2 shadow-sm">
+                    <li class="hover:bg-white/20"><a>Profile</a></li>
+                    <li class="hover:bg-red-300/80"><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </div>
         </div>
     {% else %}
     <div>

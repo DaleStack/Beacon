@@ -1,0 +1,28 @@
+<!-- Search Sidebar -->
+<div class="w-full flex-shrink-0">
+  <form method="get" class="bg-white/10 p-6 rounded-xl space-y-6 text-white w-full">
+    <h2 class="text-xl font-semibold">Filter Issues</h2>
+
+    <!-- Issue Type Select -->
+    <div>
+      <label for="label" class="block text-sm mb-2">Issue Type</label>
+      <select id="label" name="label" class="w-full rounded px-3 py-2 text-black">
+        <option value="good-first-issue">Good First Issue</option>
+        <option value="help-wanted">Help Wanted</option>
+      </select>
+    </div>
+
+    <!-- Language Search -->
+    <div>
+      <label for="language" class="block text-sm mb-2">Language</label>
+      <input type="text" id="language" name="language" placeholder="e.g. Python"
+             class="w-full rounded px-3 py-2 text-black" />
+    </div>
+
+    <!-- Submit -->
+    <button type="submit"
+            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded">
+      Search
+    </button>
+  </form>
+</div>
