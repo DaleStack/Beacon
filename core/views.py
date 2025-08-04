@@ -31,11 +31,14 @@ def dashboard(request):
 
     label = request.GET.get("label", "good-first-issue")
     language = request.GET.get("language")
+    topic = request.GET.get("topic", "")
     page = request.GET.get("page", 1)
 
     query = f"label:{label} state:open"
     if language:
         query += f" language:{language}"
+    if topic:
+        query += f" {topic} in:title,body"    
 
     issues_url = "https://api.github.com/search/issues"
     params = {
@@ -79,6 +82,7 @@ def dashboard(request):
         "cards": cards,
         "current_page": current_page,
         "last_page": last_page,
+        "topic": topic,
     })
 
 

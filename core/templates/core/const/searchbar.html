@@ -7,8 +7,8 @@
     <div>
       <label for="label" class="block text-sm mb-2">Issue Type</label>
       <select id="label" name="label" class="w-full rounded px-3 py-2 text-black">
-        <option value="good-first-issue">Good First Issue</option>
-        <option value="help-wanted">Help Wanted</option>
+        <option value="good-first-issue" {% if request.GET.label == "good-first-issue" %}selected{% endif %}>Good First Issue</option>
+        <option value="help-wanted" {% if request.GET.label == "help-wanted" %}selected{% endif %}>Help Wanted</option>
       </select>
     </div>
 
@@ -16,7 +16,14 @@
     <div>
       <label for="language" class="block text-sm mb-2">Language</label>
       <input type="text" id="language" name="language" placeholder="e.g. Python"
-             class="w-full rounded px-3 py-2 text-black" />
+             value="{{ request.GET.language }}" class="w-full rounded px-3 py-2 text-black" />
+    </div>
+
+    <!-- Topic Search -->
+    <div>
+      <label for="topic" class="block text-sm mb-2">Topic</label>
+      <input type="text" id="topic" name="topic" placeholder="e.g. machine learning"
+             value="{{ request.GET.topic }}" class="w-full rounded px-3 py-2 text-black" />
     </div>
 
     <!-- Submit -->
@@ -26,15 +33,16 @@
     </button>
   </form>
 
+  <!-- Pagination -->
   <div class="mt-8 flex justify-center items-center gap-3 text-white">
     {% if current_page > 1 %}
-        <a href="?page={{ current_page|add:-1 }}{% if request.GET.label %}&label={{ request.GET.label }}{% endif %}{% if request.GET.language %}&language={{ request.GET.language }}{% endif %}" class="px-3 py-1 bg-gray-800 rounded hover:bg-gray-700">Previous</a>
+        <a href="?page={{ current_page|add:-1 }}{% if request.GET.label %}&label={{ request.GET.label }}{% endif %}{% if request.GET.language %}&language={{ request.GET.language }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}" class="px-3 py-1 bg-gray-800 rounded hover:bg-gray-700">Previous</a>
     {% endif %}
 
     <span class="px-3 py-1 bg-gray-700 rounded">Page {{ current_page }} of {{ last_page }}</span>
 
     {% if current_page < last_page %}
-        <a href="?page={{ current_page|add:1 }}{% if request.GET.label %}&label={{ request.GET.label }}{% endif %}{% if request.GET.language %}&language={{ request.GET.language }}{% endif %}" class="px-3 py-1 bg-gray-800 rounded hover:bg-gray-700">Next</a>
+        <a href="?page={{ current_page|add:1 }}{% if request.GET.label %}&label={{ request.GET.label }}{% endif %}{% if request.GET.language %}&language={{ request.GET.language }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}" class="px-3 py-1 bg-gray-800 rounded hover:bg-gray-700">Next</a>
     {% endif %}
-    </div>
+  </div>
 </div>
