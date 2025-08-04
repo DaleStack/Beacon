@@ -1,17 +1,37 @@
 {% extends "./base.html" %}
-
+{% load static %}
 {% block content %}
 <div class="h-full bg-black py-12 px-18">
-    <div class="flex justify-center items-center">
+    <div class="flex justify-center items-center mt-10">
         <div class="text-6xl font-bold w-140 text-center">
             Shine a <span class="text-info">light</span> on your open source Journey
         </div>
     </div>
 
-    <div class="flex justify-center items-center mt-10">
+    <div class="flex justify-center items-center mt-10 flex-col space-y-10">
         <p class="text-xl w-190 text-center text-gray-300/80">
             Let Beacon guide you! Find beginner-friendly GitHub issues, save your favorites, and start contributing — no compass required. Just log in and go!
         </p>
+
+        <button class="btn btn-info flex items-center justify-center" onclick="my_modal_3.showModal()">
+            <img src="{% static 'core/images/github.svg' %}" alt="">
+            <p>Continue with GitHub</p>
+        </button>
+
+        <dialog id="my_modal_3" class="modal">
+            <div class="modal-box bg-black outline outline-white/50">
+                <h3 class="text-lg font-bold text-center text-white/80">Authenticate with Github to get started</h3>
+                <a class="flex justify-center" href="{% url 'social:begin' 'github' %}">
+                    <button class="btn btn-info flex items-center justify-center">
+                        <img src="{% static 'core/images/github.svg' %}" alt="">
+                        <p>Authenticate</p>
+                    </button>
+                </a>
+            </div>
+            <form method="dialog" class="modal-backdrop">
+                <button>close</button>
+            </form>
+        </dialog>
     </div>
 
 </div>
