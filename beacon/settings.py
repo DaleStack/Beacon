@@ -164,21 +164,24 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_user',
 
     # This one creates the user automatically — remove or override it
-    # 'social_core.pipeline.user.get_user',
-    # 'social_core.pipeline.user.create_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
 
-    'user.pipeline.require_manual_account_linking',  # custom step here
+    #'user.pipeline.require_manual_account_linking',  # custom step here
 
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
     'user.pipeline.save_avatar',  # avatar syncing
 )
-
+SOCIAL_AUTH_GITHUB_SCOPE = ['user:email', 'user:email', 'public_repo']
 
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = '/'
+
+
+
 
 
 

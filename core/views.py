@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_POST
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 import requests
@@ -7,6 +8,8 @@ from dotenv import load_dotenv
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from favorites.models import FavoriteRepo
+from favorites.forms import FavoriteRepoForm
 
 
 load_dotenv()
@@ -28,7 +31,7 @@ def dashboard(request):
 
     label = request.GET.get("label", "good-first-issue")
     language = request.GET.get("language")
-    page = request.GET.get("page", 1) 
+    page = request.GET.get("page", 1)
 
     query = f"label:{label} state:open"
     if language:
@@ -40,7 +43,7 @@ def dashboard(request):
         "sort": "created",
         "order": "desc",
         "per_page": 9,
-        "page": page 
+        "page": page
     }
 
     issue_response = requests.get(issues_url, headers=headers, params=params)
@@ -49,7 +52,7 @@ def dashboard(request):
     total_count = 0
     if issue_response.status_code == 200:
         issue_data = issue_response.json()
-        total_count = min(issue_data.get("total_count", 0), 1000)  # GitHub caps at 1000 results
+        total_count = min(issue_data.get("total_count", 0), 1000)
         for item in issue_data.get("items", []):
             repo_api_url = item["repository_url"]
             repo_response = requests.get(repo_api_url, headers=headers)
@@ -57,7 +60,8 @@ def dashboard(request):
             if repo_response.status_code == 200:
                 repo = repo_response.json()
                 cards.append({
-                    "repo_name": repo["full_name"],
+                    "repo_name": repo["name"],
+                    "repo_owner": repo["owner"]["login"],
                     "repo_url": repo["html_url"],
                     "description": repo["description"],
                     "language": repo["language"],
@@ -76,7 +80,6 @@ def dashboard(request):
         "current_page": current_page,
         "last_page": last_page,
     })
-
 
 
 def custom_logout(request):

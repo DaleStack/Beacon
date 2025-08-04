@@ -16,9 +16,11 @@
         {% for card in cards %}
           <div class="bg-white rounded-xl shadow p-5 border border-gray-100">
             <div class="mb-2">
-              <a href="{{ card.repo_url }}" target="_blank" class="text-lg font-semibold text-indigo-600 hover:underline">
-                {{ card.repo_name }}
-              </a>
+              <div class="flex justify-between items-center">
+                <a href="{{ card.repo_url }}" target="_blank" class="text-lg font-semibold text-indigo-600 hover:underline">
+                  {{ card.repo_name }}
+                </a>
+              </div>
               <p class="text-sm text-gray-600 mt-1">{{ card.description }}</p>
             </div>
 
