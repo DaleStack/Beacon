@@ -9,13 +9,18 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-100: oklch(93.6% 0.032 17.717);
+    --color-red-200: oklch(88.5% 0.062 18.334);
     --color-red-300: oklch(80.8% 0.114 19.571);
+    --color-red-500: oklch(63.7% 0.237 25.331);
     --color-red-700: oklch(50.5% 0.213 27.518);
+    --color-amber-200: oklch(92.4% 0.12 95.746);
     --color-yellow-100: oklch(97.3% 0.071 103.193);
     --color-yellow-700: oklch(55.4% 0.135 66.442);
     --color-green-100: oklch(96.2% 0.044 156.743);
     --color-green-700: oklch(52.7% 0.154 150.069);
     --color-cyan-200: oklch(91.7% 0.08 205.041);
+    --color-cyan-300: oklch(86.5% 0.127 207.078);
+    --color-blue-300: oklch(80.9% 0.105 251.813);
     --color-indigo-600: oklch(51.1% 0.262 276.966);
     --color-indigo-700: oklch(45.7% 0.24 277.023);
     --color-gray-50: oklch(98.5% 0.002 247.839);
@@ -49,6 +54,9 @@
     --tracking-normal: 0em;
     --leading-normal: 1.5;
     --radius-xl: 0.75rem;
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --default-transition-duration: 150ms;
+    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
   }
@@ -1133,6 +1141,9 @@
   .flex-shrink-0 {
     flex-shrink: 0;
   }
+  .transform {
+    transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
+  }
   .cursor-not-allowed {
     cursor: not-allowed;
   }
@@ -1350,8 +1361,30 @@
     --tw-tracking: var(--tracking-normal);
     letter-spacing: var(--tracking-normal);
   }
+  .text-amber-200 {
+    color: var(--color-amber-200);
+  }
+  .text-amber-200\/30 {
+    color: color-mix(in srgb, oklch(92.4% 0.12 95.746) 30%, transparent);
+  }
+  @supports (color: color-mix(in lab, red, red)) {
+    .text-amber-200\/30 {
+      color: color-mix(in oklab, var(--color-amber-200) 30%, transparent);
+    }
+  }
+  .text-amber-200\/70 {
+    color: color-mix(in srgb, oklch(92.4% 0.12 95.746) 70%, transparent);
+  }
+  @supports (color: color-mix(in lab, red, red)) {
+    .text-amber-200\/70 {
+      color: color-mix(in oklab, var(--color-amber-200) 70%, transparent);
+    }
+  }
   .text-black {
     color: var(--color-black);
+  }
+  .text-blue-300 {
+    color: var(--color-blue-300);
   }
   .text-cyan-200 {
     color: var(--color-cyan-200);
@@ -1381,6 +1414,15 @@
   }
   .text-info {
     color: var(--color-info);
+  }
+  .text-red-200 {
+    color: var(--color-red-200);
+  }
+  .text-red-300 {
+    color: var(--color-red-300);
+  }
+  .text-red-500 {
+    color: var(--color-red-500);
   }
   .text-red-700 {
     color: var(--color-red-700);
@@ -1438,9 +1480,28 @@
       outline-color: color-mix(in oklab, var(--color-white) 50%, transparent);
     }
   }
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .duration-300 {
+    --tw-duration: 300ms;
+    transition-duration: 300ms;
+  }
+  .ease-out {
+    --tw-ease: var(--ease-out);
+    transition-timing-function: var(--ease-out);
+  }
   .btn-info {
     --btn-color: var(--color-info);
     --btn-fg: var(--color-info-content);
+  }
+  @media (hover: hover) {
+    .hover\:translate-y-1:hover {
+      --tw-translate-y: calc(var(--spacing) * 1);
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
   }
   @media (hover: hover) {
     .hover\:bg-gray-700:hover {
@@ -1475,6 +1536,22 @@
   @media (hover: hover) {
     .hover\:underline:hover {
       text-decoration-line: underline;
+    }
+  }
+  @media (hover: hover) {
+    .hover\:shadow-md:hover {
+      --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+  }
+  @media (hover: hover) {
+    .hover\:shadow-cyan-300:hover {
+      --tw-shadow-color: oklch(86.5% 0.127 207.078);
+    }
+    @supports (color: color-mix(in lab, red, red)) {
+      .hover\:shadow-cyan-300:hover {
+        --tw-shadow-color: color-mix(in oklab, var(--color-cyan-300) var(--tw-shadow-alpha), transparent);
+      }
     }
   }
   @media (width >= 48rem) {
@@ -1727,6 +1804,26 @@
     background-position: -50%;
   }
 }
+@property --tw-rotate-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-y {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-z {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-y {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-space-y-reverse {
   syntax: "*";
   inherits: false;
@@ -1824,9 +1921,37 @@
   inherits: false;
   initial-value: solid;
 }
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ease {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-translate-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
+      --tw-rotate-x: initial;
+      --tw-rotate-y: initial;
+      --tw-rotate-z: initial;
+      --tw-skew-x: initial;
+      --tw-skew-y: initial;
       --tw-space-y-reverse: 0;
       --tw-space-x-reverse: 0;
       --tw-border-style: solid;
@@ -1848,6 +1973,11 @@
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
       --tw-outline-style: solid;
+      --tw-duration: initial;
+      --tw-ease: initial;
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-translate-z: 0;
     }
   }
 }
