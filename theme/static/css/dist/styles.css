@@ -1133,6 +1133,9 @@
   .flex-shrink-0 {
     flex-shrink: 0;
   }
+  .cursor-not-allowed {
+    cursor: not-allowed;
+  }
   .cursor-pointer {
     cursor: pointer;
   }
@@ -1403,6 +1406,9 @@
   }
   .text-yellow-700 {
     color: var(--color-yellow-700);
+  }
+  .opacity-50 {
+    opacity: 50%;
   }
   .shadow {
     --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
