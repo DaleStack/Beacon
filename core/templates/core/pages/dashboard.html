@@ -30,7 +30,20 @@
               </a>
               <div class="flex flex-wrap mt-2 gap-1">
                 {% for label in card.labels %}
-                  <span class="bg-gray-100 text-xs px-2 py-1 rounded-full text-gray-700">{{ label.name }}</span>
+                  {% with forloop.counter0|divisibleby:3 as is_mod_0 %}
+                  {% with forloop.counter0|add:1|divisibleby:3 as is_mod_1 %}
+                  {% with forloop.counter0|add:2|divisibleby:3 as is_mod_2 %}
+                    <span
+                      class="text-xs px-2 py-1 rounded-full
+                      {% if is_mod_0 %}bg-red-100 text-red-700
+                      {% elif is_mod_1 %}bg-green-100 text-green-700
+                      {% else %}bg-yellow-100 text-yellow-700
+                      {% endif %}">
+                      {{ label.name }}
+                    </span>
+                  {% endwith %}
+                  {% endwith %}
+                  {% endwith %}
                 {% endfor %}
               </div>
             </div>
