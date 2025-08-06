@@ -49,8 +49,9 @@
             </div>
 
             <div class="mt-4 text-sm text-gray-500 flex justify-between items-center">
-              <span>🌐 {{ card.language }}</span>
-              <span>⭐ {{ card.stars }}</span>
+              <span class="flex items-center gap-2"><img src="{% static 'core/images/lang.svg' %}" alt="Language"> {{ card.language }}</span>
+              
+              <span class="flex items-center gap-2"><img src="{% static 'core/images/star.svg' %}" alt="Stars"> <p>{{ card.stars }}</p></span>
             </div>
           </div>
         {% empty %}
