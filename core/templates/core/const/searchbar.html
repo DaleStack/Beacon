@@ -36,13 +36,13 @@
   <!-- Pagination -->
   <div class="mt-8 flex justify-center items-center gap-3 text-white">
     {% if current_page > 1 %}
-        <a href="?page={{ current_page|add:-1 }}{% if request.GET.label %}&label={{ request.GET.label }}{% endif %}{% if request.GET.language %}&language={{ request.GET.language }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}" class="px-3 py-1 bg-gray-800 rounded hover:bg-gray-700">Previous</a>
+        <a href="?page={{ current_page|add:-1 }}{% if request.GET.label %}&label={{ request.GET.label }}{% endif %}{% if request.GET.language %}&language={{ request.GET.language }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}" class="px-3 py-1 border border-white/30 bg-black hover:bg-cyan-300 hover:text-black rounded-md transition-all duration-300">Previous</a>
     {% endif %}
 
     <span class="px-3 py-1 bg-gray-700 rounded">Page {{ current_page }} of {{ last_page }}</span>
 
     {% if current_page < last_page %}
-        <a href="?page={{ current_page|add:1 }}{% if request.GET.label %}&label={{ request.GET.label }}{% endif %}{% if request.GET.language %}&language={{ request.GET.language }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}" class="px-3 py-1 bg-gray-800 rounded hover:bg-gray-700">Next</a>
+        <a href="?page={{ current_page|add:1 }}{% if request.GET.label %}&label={{ request.GET.label }}{% endif %}{% if request.GET.language %}&language={{ request.GET.language }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}" class="px-3 py-1 border border-white/30 bg-black hover:bg-cyan-300 hover:text-black rounded-md transition-all duration-300">Next</a>
     {% endif %}
   </div>
 </div>
