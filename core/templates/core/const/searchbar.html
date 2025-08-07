@@ -39,7 +39,7 @@
         <a href="?page={{ current_page|add:-1 }}{% if request.GET.label %}&label={{ request.GET.label }}{% endif %}{% if request.GET.language %}&language={{ request.GET.language }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}" class="px-3 py-1 border border-white/30 bg-black hover:bg-cyan-300 hover:text-black rounded-md transition-all duration-300">Previous</a>
     {% endif %}
 
-    <span class="px-3 py-1 bg-gray-700 rounded">Page {{ current_page }} of {{ last_page }}</span>
+    <span class="px-3 py-1">Page {{ current_page }} of {{ last_page }}</span>
 
     {% if current_page < last_page %}
         <a href="?page={{ current_page|add:1 }}{% if request.GET.label %}&label={{ request.GET.label }}{% endif %}{% if request.GET.language %}&language={{ request.GET.language }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}" class="px-3 py-1 border border-white/30 bg-black hover:bg-cyan-300 hover:text-black rounded-md transition-all duration-300">Next</a>
