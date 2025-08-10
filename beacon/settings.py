@@ -176,6 +176,14 @@ SOCIAL_AUTH_PIPELINE = (
 )
 SOCIAL_AUTH_GITHUB_SCOPE = ['user:email', 'user:email', 'public_repo']
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',  # For dev
+        # Use Redis or Memcached in production
+        'LOCATION': 'unique-snowflake',
+    }
+}
+
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = '/'

@@ -10,6 +10,8 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from favorites.models import FavoriteRepo
 from favorites.forms import FavoriteRepoForm
+import hashlib
+from django.core.cache import cache
 
 
 load_dotenv()
@@ -38,41 +40,59 @@ def dashboard(request):
     if language:
         query += f" language:{language}"
     if topic:
-        query += f" {topic} in:title,body"    
+        query += f" {topic} in:title,body"
 
-    issues_url = "https://api.github.com/search/issues"
-    params = {
-        "q": query,
-        "sort": "created",
-        "order": "desc",
-        "per_page": 9,
-        "page": page
-    }
+    # Generate a unique cache key for the issue search
+    query_string = f"{label}_{language}_{topic}_page{page}"
+    cache_key = f"github_issues_{hashlib.md5(query_string.encode()).hexdigest()}"
+    cached_data = cache.get(cache_key)
 
-    issue_response = requests.get(issues_url, headers=headers, params=params)
+    if cached_data:
+        cards, total_count = cached_data
+    else:
+        issues_url = "https://api.github.com/search/issues"
+        params = {
+            "q": query,
+            "sort": "created",
+            "order": "desc",
+            "per_page": 9,
+            "page": page
+        }
 
-    cards = []
-    total_count = 0
-    if issue_response.status_code == 200:
-        issue_data = issue_response.json()
-        total_count = min(issue_data.get("total_count", 0), 1000)
-        for item in issue_data.get("items", []):
-            repo_api_url = item["repository_url"]
-            repo_response = requests.get(repo_api_url, headers=headers)
+        issue_response = requests.get(issues_url, headers=headers, params=params)
 
-            if repo_response.status_code == 200:
-                repo = repo_response.json()
-                cards.append({
-                    "repo_name": repo["name"],
-                    "repo_owner": repo["owner"]["login"],
-                    "repo_url": repo["html_url"],
-                    "description": repo["description"],
-                    "language": repo["language"],
-                    "stars": repo["stargazers_count"],
-                    "issue_title": item["title"],
-                    "issue_url": item["html_url"],
-                    "labels": [{"name": label["name"]} for label in item.get("labels", [])]
-                })
+        cards = []
+        total_count = 0
+        if issue_response.status_code == 200:
+            issue_data = issue_response.json()
+            total_count = min(issue_data.get("total_count", 0), 1000)
+
+            for item in issue_data.get("items", []):
+                repo_api_url = item["repository_url"]
+                repo_cache_key = f"repo_{hashlib.md5(repo_api_url.encode()).hexdigest()}"
+                repo = cache.get(repo_cache_key)
+
+                if not repo:
+                    repo_response = requests.get(repo_api_url, headers=headers)
+                    if repo_response.status_code == 200:
+                        repo = repo_response.json()
+                        cache.set(repo_cache_key, repo, timeout=60 * 60)  # Cache repo for 1 hour
+
+                if repo:
+                    cards.append({
+                        "repo_name": repo["name"],
+                        "repo_owner": repo["owner"]["login"],
+                        "repo_url": repo["html_url"],
+                        "description": repo["description"],
+                        "language": repo["language"],
+                        "stars": repo["stargazers_count"],
+                        "issue_title": item["title"],
+                        "issue_url": item["html_url"],
+                        "labels": [{"name": label["name"]} for label in item.get("labels", [])]
+                    })
+
+        # Cache the final cards and count for 5 minutes
+        cache.set(cache_key, (cards, total_count), timeout=60 * 5)
 
     # Manual pagination context
     current_page = int(page)
